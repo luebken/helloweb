@@ -4,12 +4,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/luebken/helloweb/pkg/web/db"
 )
 
-func IndexHandler() gin.HandlerFunc {
+func IndexHandler(db db.Database) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		email := db.GetUser().Email
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
-			"title": "Hello Web",
+			"title": "Hello Web " + email,
 		})
 	}
 }

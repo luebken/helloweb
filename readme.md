@@ -1,5 +1,11 @@
+# Database
+```
+sqlite3 db/sqlite3.db < db/database.sql
+```
+
 # Go
 ```
+export DB_PATH=db
 go run cmd/main/main.go
 
 go build cmd/main/main.go
@@ -8,20 +14,18 @@ go build cmd/main/main.go
 curl localhost:8080
 ```
 
-# Docker
-
+# Docker local
 ```
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
 docker image build -t helloweb .
-docker container run -p 8080:8080 helloweb
+export DB_PATH=db
+docker container run -p 8080:8080 -e DB_PATH=/mnt -v $PWD/db:/mnt helloweb
 
 curl localhost:8080
-```
 
-# Fly.io
-
+Fly.io
 ```
-flyctl apps create helloweb-01
-sed -i '' 's/APP_NAME/helloweb-01/g' fly.toml
+fly launch --auto-confirm
 fly deploy
-fly open
+fly volumes create myapp_data --region fra --size 1
 ```
