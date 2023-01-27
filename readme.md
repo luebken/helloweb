@@ -1,21 +1,26 @@
-# Database
-```
+# helloweb
+A small scaffold for building a web application with Go and Sqlite.
+
+
+## Database
+```sh
 sqlite3 db/sqlite3.db < db/database.sql
 ```
 
-# Go
-```
+## Go
+```sh
 export DB_PATH=db
-go run cmd/main/main.go
 
+go run cmd/main/main.go
+# or
 go build cmd/main/main.go
 ./main
 
 curl localhost:8080
 ```
 
-# Docker local
-```
+## Docker local
+```sh
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 docker image build -t helloweb .
 export DB_PATH=db
@@ -24,8 +29,8 @@ docker container run -p 8080:8080 -e DB_PATH=/mnt -v $PWD/db:/mnt helloweb
 curl localhost:8080
 ```
 
-# Fly.io
-```
+## Fly.io
+```sh
 fly launch
 # use the same region!
 fly volumes create myapp_data --region fra --size 1
@@ -39,8 +44,9 @@ destination="/data"
 
 [env]
 DB_PATH="/data"
-
 ```
+
+```sh
 fly deploy
 
 fly logs | grep DB_PATH
@@ -53,4 +59,3 @@ $ ls -l /data
 
 flyctl apps open
 ```
-
