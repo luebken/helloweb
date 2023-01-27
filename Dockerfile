@@ -1,9 +1,9 @@
-FROM golang:1.18-alpine AS build
+FROM golang:1.18 AS build 
 
 WORKDIR /src/
 COPY . /src/
-RUN CGO_ENABLED=0 go build cmd/main/main.go
+RUN CGO_ENABLED=1 go build -ldflags '-extldflags "-static"' cmd/main/main.go 
 
-FROM scratch
+FROM alpine:latest
 COPY --from=build /src/main /bin/main
 ENTRYPOINT ["/bin/main"]
