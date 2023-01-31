@@ -30,32 +30,34 @@ curl localhost:8080
 ```
 
 ## Fly.io
+Getting started:
 ```sh
-fly launch
-# use the same region!
+flyctl auth login
+
+fly launch --generate-name --copy-config --region fra
 fly volumes create myapp_data --region fra --size 1
-```
-
-```toml
-# add mounts and env to toml:
-[mounts]
-source="myapp_data"
-destination="/data"
-
-[env]
-DB_PATH="/data"
-```
-
-```sh
 fly deploy
-
-fly logs | grep DB_PATH
-
 fly ssh sftp shell
 $ put db/sqlite3.db /data/sqlite3.db
+
+fly logs
+fly apps restart $(fly info --json | jq -r .Name)
+
+fly apps open
+```
+
+Debug/Troubleshoot/Other:
+```sh
+fly doctor
 
 flyctl ssh console
 $ ls -l /data
 
-flyctl apps open
+flyctl auth docker
+docker tag helloweb:latest registry.fly.io/helloweb:v1
+docker push registry.fly.io/helloweb:v1
+
+cat ~/.fly/config.yml
+
+flyctl destroy
 ```
