@@ -1,12 +1,19 @@
-app = "APP_NAME"
+# fly.toml file generated for summer-pine-2667 on 2023-01-31T17:01:19+01:00
+
+# app = "<template>"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
 [env]
+  DB_PATH = "/data"
 
 [experimental]
   auto_rollback = true
+
+[mounts]
+  destination = "/data"
+  source = "myapp_data"
 
 [[services]]
   http_checks = []
